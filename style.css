@@ -1,0 +1,10 @@
+
+.game-board-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.game-board-tile {
+    outline: 1px solid black;
+}
+
