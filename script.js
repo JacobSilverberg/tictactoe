@@ -86,7 +86,7 @@ let gameController = (function() {
 
             return (true);
         }
-        if (checkIfFull()) {playerTurn.textContent = `Tie Game.`
+        if (checkIfFull()) {document.querySelector('#turn-text').textContent = `Tie Game.`;
 
             return (true);
         }
