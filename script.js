@@ -78,16 +78,16 @@ let gameController = (function() {
     };
 
     function gameLoop(tileSelection) {
-        if (!makeMove(tileSelection)) {document.querySelector('#turn-text').textContent = `Illegal Move. It is ${activePlayer.token}'s turn.`;
-
+        if (!makeMove(tileSelection)) {
+            document.querySelector('#turn-text').textContent = `Illegal Move. It is ${activePlayer.token}'s turn.`;
             return(true);
         }
-        if (checkIfWinning()) {document.querySelector('#turn-text').textContent = `${activePlayer.token} Wins!!`;
-
+        if (checkIfWinning()) {
+            document.querySelector('#turn-text').textContent = `${activePlayer.token} Wins!!`;
             return (true);
         }
-        if (checkIfFull()) {document.querySelector('#turn-text').textContent = `Tie Game.`;
-
+        if (checkIfFull()) {
+            document.querySelector('#turn-text').textContent = `Tie Game.`;
             return (true);
         }
         switchPlayers();
@@ -110,20 +110,6 @@ const gameBoard = (function createGameBoard () {
     const gameBoardContainer = document.querySelector("#game-board");
     const turnDisplay = document.querySelector("#turn-display");
     const newGame = document.querySelector("#new-game");
-
-    // for (let i = 0; i < 3; i++) {
-    //     const boardRow = document.createElement('div');
-    //     boardRow.setAttribute('class', 'game-board-row');
-    //     boardRow.setAttribute('id', `game-board-row-${i + 1}`);
-    //     for (let j = 0; j < 3; j++) {
-    //         const boardTile = document.createElement('div');
-    //         boardTile.setAttribute('class', 'board-tile');
-    //         boardTile.setAttribute('id', `${(i * 3) + j}`);
-    //         boardTile.textContent = `tile ${(i * 3) + j}`;
-    //         boardRow.appendChild(boardTile);
-    //     }
-    //     gameBoardContainer.appendChild(boardRow);
-    // }
 
     for (let i = 0; i < 9; i++) {
         const boardTile = document.createElement('div');
