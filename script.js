@@ -35,7 +35,7 @@ let gameController = (function() {
         else {
             activePlayer = players[0];
         }
-        console.log(`It is ${activePlayer.name}'s turn.`)
+        document.querySelector('#turn-text').textContent = `It is ${activePlayer.token}'s turn.`;
     };
 
     function makeMove(tileSelection) {
@@ -78,16 +78,16 @@ let gameController = (function() {
     };
 
     function gameLoop(tileSelection) {
-        if (!makeMove(tileSelection)) {
-            console.log("Illegal Tile Placement");
+        if (!makeMove(tileSelection)) {document.querySelector('#turn-text').textContent = `Illegal Move. It is ${activePlayer.token}'s turn.`;
+
             return(true);
         }
-        if (checkIfWinning()) {
-            console.log(`${activePlayer.name} wins!`);
+        if (checkIfWinning()) {document.querySelector('#turn-text').textContent = `${activePlayer.token} Wins!!`;
+
             return (true);
         }
-        if (checkIfFull()) {
-            console.log("Tie!");
+        if (checkIfFull()) {playerTurn.textContent = `Tie Game.`
+
             return (true);
         }
         switchPlayers();
@@ -98,7 +98,8 @@ let gameController = (function() {
             board[i] = "";
         };
         activePlayer = players[0];
-        document.querySelectorAll('.board-tile').forEach(tile => tile.textContent = "-");
+        document.querySelectorAll(`[class^="board-tile"]`).forEach(tile => tile.textContent = ``);
+        document.querySelector('#turn-text').textContent = `It is ${activePlayer.token}'s turn.`;
     }
 
     return {receiveInput, restartGame}
@@ -107,27 +108,42 @@ let gameController = (function() {
 
 const gameBoard = (function createGameBoard () {
     const gameBoardContainer = document.querySelector("#game-board");
+    const turnDisplay = document.querySelector("#turn-display");
+    const newGame = document.querySelector("#new-game");
 
-    for (let i = 0; i < 3; i++) {
-        const boardRow = document.createElement('div');
-        boardRow.setAttribute('class', 'game-board-row');
-        boardRow.setAttribute('id', `game-board-row-${i + 1}`);
-        for (let j = 0; j < 3; j++) {
-            const boardTile = document.createElement('div');
-            boardTile.setAttribute('class', 'board-tile');
-            boardTile.setAttribute('id', `${(i * 3) + j}`);
-            boardTile.textContent = `tile ${(i * 3) + j}`;
-            boardRow.appendChild(boardTile);
-        }
-        gameBoardContainer.appendChild(boardRow);
+    // for (let i = 0; i < 3; i++) {
+    //     const boardRow = document.createElement('div');
+    //     boardRow.setAttribute('class', 'game-board-row');
+    //     boardRow.setAttribute('id', `game-board-row-${i + 1}`);
+    //     for (let j = 0; j < 3; j++) {
+    //         const boardTile = document.createElement('div');
+    //         boardTile.setAttribute('class', 'board-tile');
+    //         boardTile.setAttribute('id', `${(i * 3) + j}`);
+    //         boardTile.textContent = `tile ${(i * 3) + j}`;
+    //         boardRow.appendChild(boardTile);
+    //     }
+    //     gameBoardContainer.appendChild(boardRow);
+    // }
+
+    for (let i = 0; i < 9; i++) {
+        const boardTile = document.createElement('div');
+        boardTile.setAttribute('class', `board-tile-${i}`);
+        boardTile.setAttribute('id', `${i}`);
+        boardTile.textContent = ``;
+        gameBoardContainer.appendChild(boardTile);
     }
 
+    const turn = document.createElement('p');
+    turn.setAttribute('id', 'turn-text');
+    turn.textContent = `It is X's turn.`;
+    turnDisplay.appendChild(turn);
+
     const restartGame = document.createElement('button');
-    restartGame.setAttribute('class', 'restart-game');
-    restartGame.textContent = "Restart Game";
-    gameBoardContainer.appendChild(restartGame);
+    restartGame.setAttribute('id', 'restart-game-button');
+    restartGame.textContent = "New Game";
+    newGame.appendChild(restartGame);
 
 })();
 
-document.querySelectorAll('.board-tile').forEach(tile => tile.addEventListener('click', gameController.receiveInput));
-document.querySelector('.restart-game').addEventListener('click', gameController.restartGame);
+document.querySelectorAll(`[class^="board-tile"]`).forEach(tile => tile.addEventListener('click', gameController.receiveInput));
+document.querySelector('#restart-game-button').addEventListener('click', gameController.restartGame);

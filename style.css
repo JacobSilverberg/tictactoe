@@ -1,10 +1,68 @@
+html {
+    box-sizing: border-box;
+    font-family: 'Permanent Marker';
+    background-color: #606c38;
+}
 
-.game-board-row {
+.header {
+    text-align: center;
+    font-size: 2vh;
+}
+
+.game-board-container {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    width: 50vw;
+    height: 50vw;
+    margin: 40px auto 40px auto;
 }
 
-.board-tile {
-    outline: 1px solid black;
+[class^="board-tile"] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(50vw / 3);
+    height: calc(50vw / 3);
+
+    font-size: calc(40vw / 3);
 }
 
+.board-tile-1, .board-tile-4, .board-tile-7 {
+    border-right: 4px solid black;
+    border-left: 4px solid black;
+}
+
+.board-tile-3, .board-tile-4, .board-tile-5 {
+    border-top: 4px solid black;
+    border-bottom: 4px solid black;
+}
+
+.turn-display {
+    text-align: center;
+    font-size: 2vh;
+}
+
+.new-game {
+    text-align: center;
+}
+
+#restart-game-button {
+    justify-content: center;
+    align-items: center;
+    color: #606c38;
+    font-family: 'Permanent Marker';
+    font-size: 25px;
+    background-color: black;
+    border-radius: 8px;
+    height: 7vh;
+    width: 30vw;
+    border: 8px solid black;
+}
+
+#restart-game-button:hover {
+    border: 8px solid black;
+    border-radius: 8px;
+    color: black;
+    background-color: #606c38;
+}
