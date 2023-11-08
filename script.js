@@ -1,11 +1,4 @@
-// 3 objects:
-// Game
-// Player
-// Gameboard
-
-
 let gameController = (function() {
-    let gameActive = true;
     const winning = [
         [0, 1, 2],
         [3, 4, 5],
@@ -58,7 +51,10 @@ let gameController = (function() {
 
     function checkIfWinning() {
         for (let i = 0; i < winning.length; i++){
-            if (board[i][0] == board[i][1] && board[i][1] == board[i][2]){
+            if (board[winning[i][0]] == ""){
+                continue;
+            }
+            if (board[winning[i][0]] == board[winning[i][1]] && board[winning[i][1]] == board[winning[i][2]]){
                 return(true);
             }
         }
@@ -68,12 +64,12 @@ let gameController = (function() {
     function checkIfFull() {
         for (let i = 0; i < board.length; i++){
             if (board[i] == "") {
-                return (true);
+                return (false);
             } else {
                 continue;
             }
         }
-        return(false);
+        return(true);
     }
 
     function receiveInput(e) {
@@ -82,25 +78,30 @@ let gameController = (function() {
     };
 
     function gameLoop(tileSelection) {
-        if (makeMove(tileSelection)) {
-            if (checkIfWinning()) {
-                if (checkIfFull()){
-                    switchPlayers();
-                }
-                else {
-                    console.log("Tie!");
-                }
-            }
-            else {
-                console.log("Winner! Someone.");
-            }
-        } else {
+        if (!makeMove(tileSelection)) {
             console.log("Illegal Tile Placement");
+            return(true);
         }
-    };
+        if (checkIfWinning()) {
+            console.log(`${activePlayer.name} wins!`);
+            return (true);
+        }
+        if (checkIfFull()) {
+            console.log("Tie!");
+            return (true);
+        }
+        switchPlayers();
+    }
 
-    
-    return {receiveInput}
+    function restartGame() {
+        for (let i = 0; i < 9; i++) {
+            board[i] = "";
+        };
+        activePlayer = players[0];
+        document.querySelectorAll('.board-tile').forEach(tile => tile.textContent = "-");
+    }
+
+    return {receiveInput, restartGame}
 
 })();
 
@@ -121,10 +122,12 @@ const gameBoard = (function createGameBoard () {
         gameBoardContainer.appendChild(boardRow);
     }
 
+    const restartGame = document.createElement('button');
+    restartGame.setAttribute('class', 'restart-game');
+    restartGame.textContent = "Restart Game";
+    gameBoardContainer.appendChild(restartGame);
+
 })();
 
-// gameBoard;
-
-
-
 document.querySelectorAll('.board-tile').forEach(tile => tile.addEventListener('click', gameController.receiveInput));
+document.querySelector('.restart-game').addEventListener('click', gameController.restartGame);
